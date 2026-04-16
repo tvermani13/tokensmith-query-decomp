@@ -1,0 +1,153 @@
+[
+  {
+    "id": "ep-2pc-q1",
+    "type": "simple",
+    "question": "What problem does two-phase commit (2PC) solve in a distributed database transaction?",
+    "episode": "two-phase-commit",
+    "episode_order": 1,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": "Appendix Q1. After answering in the UI, paste the top 1–2 chunks that directly define what 2PC achieves (atomic commit across sites)."
+  },
+  {
+    "id": "ep-2pc-q2",
+    "type": "complex",
+    "question": "In two-phase commit, what are the coordinator and participant roles, and what messages are exchanged in each phase (voting + decision)?",
+    "episode": "two-phase-commit",
+    "episode_order": 2,
+    "builds_on": ["ep-2pc-q1"],
+    "gold_chunks": [],
+    "notes": "Appendix Q2. Ground-truth chunk should enumerate phases and message flow (prepare/vote, commit/abort)."
+  },
+  {
+    "id": "ep-2pc-q3",
+    "type": "complex",
+    "question": "Why is two-phase commit considered a blocking protocol? Describe the specific failure scenario that causes participants to block and what they are waiting for.",
+    "episode": "two-phase-commit",
+    "episode_order": 3,
+    "builds_on": ["ep-2pc-q2"],
+    "gold_chunks": [],
+    "notes": "Appendix Q3. Aim for a chunk that explains coordinator crash after participants vote YES, and participants wait for the decision."
+  },
+  {
+    "id": "ep-2pc-q4",
+    "type": "complex",
+    "question": "During recovery from failures, what information must be forced to stable storage for two-phase commit to guarantee correctness, and when is it forced?",
+    "episode": "two-phase-commit",
+    "episode_order": 4,
+    "builds_on": ["ep-2pc-q2"],
+    "gold_chunks": [],
+    "notes": "Appendix Q4. Look for chunks describing logging/force-write of votes/decisions and why."
+  },
+  {
+    "id": "ep-2pc-q5",
+    "type": "complex",
+    "question": "What is the key idea behind three-phase commit (3PC) or other non-blocking variants, and how do they avoid the blocking behavior of 2PC (at a high level)?",
+    "episode": "two-phase-commit",
+    "episode_order": 5,
+    "builds_on": ["ep-2pc-q3"],
+    "gold_chunks": [],
+    "notes": "Appendix Q5. If Silberschatz discusses 3PC briefly, use that. If it does not, replace this question with a narrower one from the 2PC section (e.g., timeouts + termination protocol)."
+  },
+
+  {
+    "id": "s-acid-brief",
+    "type": "simple",
+    "question": "What do the ACID properties mean (Atomicity, Consistency, Isolation, Durability), in one or two sentences each?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": "Good warm-up sanity check for indexing + citations."
+  },
+  {
+    "id": "s-serializability-why",
+    "type": "simple",
+    "question": "What does conflict serializability mean, and why do we care about it in concurrency control?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  },
+  {
+    "id": "c-locking-vs-timestamp",
+    "type": "complex",
+    "question": "Compare two-phase locking (2PL) and timestamp ordering: how does each ensure serializability, and what are the trade-offs in aborts and deadlocks?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": "Likely multi-section evidence: deadlocks (2PL) vs aborts (TO)."
+  },
+  {
+    "id": "c-strict-2pl-vs-2pl",
+    "type": "complex",
+    "question": "What is strict two-phase locking, and how does it differ from basic two-phase locking in terms of recoverability and cascading aborts?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  },
+  {
+    "id": "c-deadlock-handling",
+    "type": "complex",
+    "question": "How do deadlock prevention and deadlock detection differ? Give an example of one technique for each and what trade-offs they introduce.",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  },
+  {
+    "id": "c-bplustree-split",
+    "type": "complex",
+    "question": "When inserting into a B+-tree, what happens when a leaf node overflows? Explain the split and how the parent is updated.",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  },
+  {
+    "id": "c-bplustree-delete-merge-redistribute",
+    "type": "complex",
+    "question": "During deletion in a B+-tree, when do we redistribute keys versus merge nodes, and what invariants are we trying to preserve?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  },
+  {
+    "id": "c-join-order-why-hard",
+    "type": "complex",
+    "question": "Why is join ordering an optimization problem, and what makes finding the optimal join order computationally hard? What approach does a typical optimizer use instead?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  },
+  {
+    "id": "c-hash-join-vs-sort-merge",
+    "type": "complex",
+    "question": "Compare hash join and sort-merge join: when is each preferable, and what are their main cost drivers?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  },
+  {
+    "id": "c-buffer-replacement",
+    "type": "complex",
+    "question": "How does buffer replacement (e.g., LRU) interact with database workloads, and why can naive LRU behave poorly for sequential scans? What is one mitigation strategy?",
+    "episode": null,
+    "episode_order": null,
+    "builds_on": [],
+    "gold_chunks": [],
+    "notes": ""
+  }
+]
