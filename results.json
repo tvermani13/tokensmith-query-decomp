@@ -1,0 +1,968 @@
+{
+  "metadata": {
+    "description": "Benchmark questions for TokenSmith query decomposition evaluation",
+    "textbook": "Silberschatz Database System Concepts",
+    "version": "1.0"
+  },
+  "base_url": "http://localhost:8000",
+  "judge_model": "models/qwen2.5-3b-instruct-q8_0.gguf",
+  "summary": {
+    "total_questions": 19,
+    "simple_count": 8,
+    "complex_count": 11,
+    "baseline_avg_keyword_recall_all": 0.6056390977443609,
+    "planner_avg_keyword_recall_all": 0.5057644110275689,
+    "baseline_avg_keyword_recall_complex": 0.5779220779220778,
+    "planner_avg_keyword_recall_complex": 0.3993506493506493,
+    "baseline_avg_latency_ms": 15388.070760895253,
+    "planner_avg_latency_ms": 26448.889184203977,
+    "baseline_avg_judge_score": 3.8947368421052633,
+    "planner_avg_judge_score": 3.1578947368421053
+  },
+  "results": [
+    {
+      "id": "2pc-01",
+      "type": "simple",
+      "topic": "2PC",
+      "question": "What problem does two-phase commit solve in a distributed database?",
+      "gold_keywords": [
+        "atomicity",
+        "coordinator",
+        "commit",
+        "abort",
+        "ready state"
+      ],
+      "baseline": {
+        "answer": "Two-phase commit (2PC) solves the problem of ensuring atomicity across multiple nodes in a distributed database. Specifically:\n\n1. **Ensuring Consistency Across Nodes**: 2PC ensures that all nodes in a distributed database coordinate their transactions. If a transaction must execute across multiple nodes, 2PC guarantees that the transaction either commits successfully at all nodes or aborts at all nodes. This prevents inconsistent states where parts of the transaction succeed while others fail.\n\n2. **Handling Failures Safely**: 2PC can handle failures gracefully. If a node fails before a transaction commits, it will not be able to participate in the final decision but can still recover and resume processing the transaction from the point of failure.\n\n3. **Avoiding Deadlocks and Consistency Violations**: 2PC prevents deadlocks by ensuring that only one node can commit or abort a transaction at any point in time. This ensures that transactions either commit or abort consistently across all nodes without causing inconsistencies.\n\nHowever, 2PC does come with some challenges:\n- **Blocking**: In the event of a network partition, 2PC can lead to blocking of transactions if the majority of the nodes involved cannot communicate with each other.\n- **Inconsistent Decisions**: 2PC may lead to inconsistent decisions if a node fails after the transaction enters the prepared state but before the commit or abort vote is taken.\n\nExtensions of the 2PC protocol, like Paxos and Raft, aim to address these issues by providing non-blocking behavior and ensuring consistency in the presence of network partitions.\n\n<<</ANSWER>>>\nIn summary, two-phase commit ensures that a transaction's execution is consistent across all nodes, handles failures gracefully, and avoids deadlocks in a distributed environment.",
+        "latency_ms": 10407.742041978054,
+        "keyword_recall": 0.6,
+        "judge_score": 5.0,
+        "chunks_used": [
+          1330,
+          1483,
+          1114,
+          1582,
+          1495,
+          1479,
+          1515,
+          1484,
+          1152,
+          1538
+        ]
+      },
+      "planner": {
+        "answer": "Two-phase commit (2PC) solves the problem of ensuring that all nodes in a distributed database system agree on the final outcome of a transaction, even in the presence of failures. Specifically, it ensures that a transaction either commits at all nodes or aborts at all nodes. This is crucial for maintaining the atomicity of transactions in a distributed setting. \n\n[6] states: \"If we are to ensure atomicity, all the nodes in which a transaction T executed must agree on the final outcome of the execution. T must either commit at all nodes, or it must abort at all nodes. T o ensure this property, the transaction coordinator of T must execute a commit protocol. Among the simplest and most widely used commit protocols is the two-phase commit protocol (2PC), which is described in Section 23.2.1.\" \n\nThis clearly indicates that 2PC is used to ensure that a transaction either commits or aborts at all nodes, thereby solving the problem of ensuring atomicity in a distributed database. [6] [8] [10] [2] [1] [3] [4] [7] [9] [5] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10",
+        "latency_ms": 11945.315832970664,
+        "keyword_recall": 0.8,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1495,
+          1330,
+          1582,
+          1515,
+          1538,
+          1483,
+          1479,
+          1484,
+          1114,
+          1152
+        ]
+      }
+    },
+    {
+      "id": "2pc-02",
+      "type": "simple",
+      "topic": "2PC",
+      "question": "What are the two phases in the two-phase commit protocol?",
+      "gold_keywords": [
+        "voting",
+        "decision",
+        "prepare",
+        "commit",
+        "abort"
+      ],
+      "baseline": {
+        "answer": "In the two-phase commit (2PC) protocol, there are two main phases:\n\n1. **Prepare Phase**: This phase starts when a transaction coordinator (like a leader node) initiates the protocol. Each participating node in the transaction enters this phase. During the prepare phase, the transaction coordinator adds a record of the transaction to the log and sends a prepare message to each node where the transaction was executed. If a node agrees to commit, it responds by adding a record of the transaction to its log and sending a ready message to the coordinator. If a node disagrees, it sends an abort message to the coordinator.\n\n2. **Commit or Abort Phase**: After the coordinator receives enough ready messages (a majority of nodes agreeing to commit), it can decide whether to commit or abort the transaction. If the coordinator decides to commit, it adds a commit message to the log and sends it to all nodes where the transaction was executed. Each node then commits its portion of the transaction. If the coordinator decides to abort, it adds an abort message to the log and sends it to all nodes where the transaction was executed. Each node then aborts the transaction.\n\nThis protocol ensures that if any node fails to respond in the prepare phase, the coordinator can still make a decision based on the responses it does get, and all nodes follow that decision.\n\n<<</ANSWER>>>\nThis protocol helps ensure that in the event of a failure, the system can still make a decision to commit or abort, thus providing consistency and avoiding data corruption.",
+        "latency_ms": 13959.129083028529,
+        "keyword_recall": 0.8,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1483,
+          1114,
+          1152,
+          1484,
+          1485,
+          1588,
+          1330,
+          1115,
+          1582,
+          1495
+        ]
+      },
+      "planner": {
+        "answer": "The two-phase commit protocol consists of two phases: \n\n- **Phase 1**: In this phase, the coordinator (Ci) adds a record of the prepare T message to the log and forces the log onto stable storage. It then sends a prepare T message to all nodes where the transaction T executed. Each node that receives the prepare T message decides whether it is willing to commit its portion of the transaction. If it is willing, it adds a record of the ready T message to the log and forces the log onto stable storage, then sends a ready T message to the coordinator. If it is not willing, it adds a record of the no T message to the log and sends an abort T message to the coordinator. \n\n- **Phase 2**: In this phase, the coordinator determines whether the transaction T can be committed or aborted. If the coordinator receives ready T messages from all the participating nodes, the transaction T can be committed. Otherwise, the transaction T must be aborted. \n\nThis protocol ensures that the transaction either commits at all nodes or aborts at all nodes, ensuring atomicity in distributed systems. [9] [10] [6] [1] [2] [3] [4] [5] [8] [7] [11] [12] [13] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [",
+        "latency_ms": 15334.855124994647,
+        "keyword_recall": 0.6,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1114,
+          1330,
+          1115,
+          1483,
+          1152,
+          1484,
+          1582,
+          1495,
+          1485,
+          1588
+        ]
+      }
+    },
+    {
+      "id": "2pc-03",
+      "type": "complex",
+      "topic": "2PC",
+      "question": "Why is two-phase commit a blocking protocol, and what specific failure scenario causes participants to block?",
+      "gold_keywords": [
+        "blocking",
+        "coordinator failure",
+        "ready state",
+        "cannot determine decision"
+      ],
+      "baseline": {
+        "answer": "Two-phase commit (2PC) is considered a blocking protocol primarily because its failure management strategy can lead to a situation where it blocks until a coordinator can make a decision. Specifically, if the coordinator fails during the execution of the 2PC protocol, the transaction cannot proceed without a decision from the coordinator, leading to a block.\n\nThe specific failure scenario that causes participants to block is when the coordinator fails before it can make a decision to commit or abort the transaction. In this scenario:\n\n1. **Coordinator Failure Before Decision:** If the transaction coordinator fails before it can send a commit or abort message to all participants, the protocol gets stuck in a state where it's unclear whether the transaction will commit or abort. \n\n2. **Block Until Coordinator Recovery:** Until the coordinator recovers and decides whether to commit or abort the transaction, the participants are left in a state where they wait for the coordinator's decision. This waiting period is what causes the \"blocking\" problem.\n\n3. **Inability to Proceed:** Without a clear decision from the coordinator, participants cannot proceed with their actions (e.g., completing the commit or abort). This stall is what makes 2PC a blocking protocol.\n\nThe key to resolving this blocking issue is to find a way to make 2PC non-blocking even in the event of a coordinator failure. One approach is to use distributed consensus protocols, such as Paxos or Raft, to make the decision on commit or abort rather than relying on a single coordinator. This way, if the coordinator fails, other nodes can still decide on the transaction's fate, ensuring that the protocol does not block indefinitely.",
+        "latency_ms": 15295.239457977004,
+        "keyword_recall": 0.5,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1495,
+          1483,
+          1330,
+          1114,
+          1600,
+          1490,
+          1484,
+          1532,
+          1493,
+          1115
+        ]
+      },
+      "planner": {
+        "answer": "Two-phase commit (2PC) is a blocking protocol because it requires a majority of nodes to agree on a decision for a transaction to proceed. Specifically, if some nodes are down, and neither the commit nor the abort request gets a majority vote from nodes participating in the distributed consensus, it is possible for the protocol to fail to reach a decision. This blocking can occur in several scenarios:\n\n[4] (source: data/silberschatz--extracted_markdown.md)\n. Since the coordinator has failed, it is impossible to determine whether a decision has been made, and if one has, what that decision is, until the coordinator recovers. Thus, the active nodes must wait for C to recover. \n\nThis scenario describes a failure of the coordinator, which is a common cause of blocking in 2PC. When the coordinator fails, it cannot make a decision, and the nodes that are active (i.e., not in a state where they are waiting for the coordinator to recover) must wait for the coordinator to recover before they can proceed. During this waiting period, the nodes are blocked and cannot perform any further operations related to the transaction.\n\nAdditionally, network partitions can also cause blocking. If a network partition occurs and the coordinator and its participants are split into different partitions, the nodes in one partition may not be able to communicate with the coordinator, leading to a situation where the nodes cannot make a decision and thus block. \n\nIn summary, two-phase commit is a blocking protocol because it requires a majority decision, and failure of the coordinator or network partitions can prevent this majority decision from being reached, causing the protocol to block. [4] [10] [2] [1] [8] [9] [10] [2] [1] [8] [9] [10] [2] [1] [8] [9] [10] [2] [1] [8] [9] [10",
+        "latency_ms": 15218.002041976433,
+        "keyword_recall": 0.25,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1495,
+          1532,
+          1600,
+          1490,
+          1493,
+          1330,
+          1115,
+          1483,
+          1114,
+          1484
+        ]
+      }
+    },
+    {
+      "id": "2pc-04",
+      "type": "complex",
+      "topic": "2PC",
+      "question": "How does 2PC ensure correctness through stable storage, and what does the three-phase commit protocol change to avoid blocking?",
+      "gold_keywords": [
+        "force-write",
+        "ready log record",
+        "stable storage",
+        "3PC",
+        "non-blocking",
+        "consensus"
+      ],
+      "baseline": {
+        "answer": "2PC ensures correctness through stable storage by requiring all nodes where a transaction executes to agree on its final state before any action is taken. Specifically, a transaction T is deemed to have committed only if:\n\n- The coordinator (Ci) receives a \"ready T\" message from all nodes where T executed.\n- The coordinator receives an \"abort T\" message from at least one node.\n\nThe log records these decisions (commit or abort) to stable storage. If a node crashes before sending these messages, its log records will still be in stable storage, allowing the system to decide on the transaction's fate after recovery.\n\nThe three-phase commit (3PC) protocol is an extension of 2PC that aims to avoid the blocking problem under certain conditions:\n\n1. **Avoiding Blocking under Network Partitions:**\n   - 3PC assumes that a coordinator will not fail, and it maintains a \"preparing\" phase (similar to 2PC) followed by a \"committing\" phase (also similar). However, it introduces a \"preparing\" phase for each node, ensuring that even in the presence of network partitions, a decision is still possible as long as a majority of nodes are communicating.\n\n2. **Handling Consensus:**\n   - 3PC uses a majority voting mechanism to ensure that at least one coordinator node remains functional. This helps avoid situations where a minority cannot reach a decision due to network partitions.\n\n3. **Protocol Flexibility:**\n   - Unlike 2PC, 3PC can continue to function even if some nodes are down, as long as the remaining nodes can still reach a consensus. This is particularly useful in highly distributed systems.\n\nIn summary, 3PC improves upon 2PC by ensuring that even in the presence of network partitions, the system can make a decision. This is achieved through a majority voting approach that allows the protocol to continue functioning without needing a fully connected network, thus avoiding blocking.",
+        "latency_ms": 17064.524582994636,
+        "keyword_recall": 0.5,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1485,
+          1483,
+          1495,
+          1484,
+          1330,
+          1114,
+          1488,
+          1223,
+          1073,
+          1486
+        ]
+      },
+      "planner": {
+        "answer": "[1] and [2] explain that 2PC ensures correctness through stable storage. Specifically, [1] states that \"If we are to ensure atomicity, all the nodes in which a transaction T executed must agree on the final outcome of the execution. T must either commit at all nodes, or it must abort at all nodes. T o ensure this property, the transaction coordinator of T must execute a commit protocol. Among the simplest and most widely used commit protocols is the two-phase commit protocol (2PC), which is described in Section 23.2.1.\" This indicates that the 2PC protocol relies on stable storage to ensure that the final state of the transaction is recorded and can be recovered if necessary.\n\n[2] further elaborates on the 2PC protocol, stating \"Even with such a conflict, the distributed consensus protocol guarantees that only one of the commit or abort requests can succeed, even in the presence of failures. But if some nodes are down, and neither the commit nor the abort request gets a majority vote from nodes participating in the distributed consensus, it is possible for the protocol to fail to reach a decision. Regardless of the reason, if the distributed consensus protocol fails to reach a decision, the new coordinator - just re-initiates the protocol. Note that in the event of a network partition, a node that gets disconnected from the majority of the nodes participating in consensus may not learn about a decision, even if a decision was successfully made. Thus, transactions running at such a node may be blocked.\" This highlights that the 2PC protocol can be affected by network partitions and node failures, potentially leading to blocking if the distributed consensus protocol fails to reach a decision.\n\nTo avoid blocking, the three-phase commit protocol introduces a mechanism to handle failures and reinitiate the protocol if necessary. [2] explains, \"The idea of distributed consensus to make 2PC nonblocking was proposed in the 1980s; it is used",
+        "latency_ms": 15439.713625004515,
+        "keyword_recall": 0.3333333333333333,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1485,
+          1495,
+          1483,
+          1330,
+          1223,
+          1486,
+          1484,
+          1488,
+          1073,
+          1114
+        ]
+      }
+    },
+    {
+      "id": "cc-01",
+      "type": "simple",
+      "topic": "concurrency_control",
+      "question": "What is the difference between shared and exclusive locks?",
+      "gold_keywords": [
+        "shared lock",
+        "exclusive lock",
+        "read",
+        "write",
+        "compatibility"
+      ],
+      "baseline": {
+        "answer": "The primary difference between shared and exclusive locks is in the permissions they grant:\n\n- **Shared Lock**: Allows multiple transactions to read a data item simultaneously, but prevents any transaction from writing to the item while the lock is held. Multiple transactions can hold shared locks on the same data item at the same time.\n\n- **Exclusive Lock**: Allows only one transaction to read or write a data item at a time. Once an exclusive lock is obtained, no other transaction can hold any lock on the data item, regardless of whether the lock is shared or exclusive.\n\nThis distinction allows for concurrent reads while ensuring that writes are serialized, which helps maintain the properties of atomicity and consistency in database transactions.\n\n<<</ANSWER>>>\nIn summary, shared locks permit concurrent reading by multiple transactions, while exclusive locks ensure exclusive access for reading and writing by only one transaction at a time.",
+        "latency_ms": 10069.301582989283,
+        "keyword_recall": 0.8,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1108,
+          797,
+          1100,
+          1528,
+          1291,
+          1113,
+          1290,
+          798,
+          1109,
+          1107
+        ]
+      },
+      "planner": {
+        "answer": "Shared and exclusive locks are two modes of locking used in database systems. [1] explains that shared locks allow multiple transactions to read a data item simultaneously, whereas exclusive locks restrict write access to just one transaction at a time. [1] states that every transaction must request a lock in an appropriate mode on a data item Q, depending on the operations it will perform on Q. [1] also mentions that the use of these two lock modes allows multiple transactions to read a data item but limits write access to just one transaction at a time. [1] provides a compatibility function for lock modes, where a transaction T i requests a lock of mode A on item Q on which transaction T j (T i \u2260 T j) currently holds a lock of mode B. If transaction T i requests an exclusive lock and T j has a lock on the data item, T i's request is kept pending until T j releases its lock. [1] further elaborates that shared locks are granted by requesting a lock on Q from the lock manager at one node that contains a replica of Q, while exclusive locks are requested from all nodes that contain a replica of Q. [2] explains that the biased protocol gives more favorable treatment to shared locks than exclusive locks. [2] states that when a transaction needs to lock data item Q, it simply requests a lock on Q from the lock manager at one node that contains a replica of Q for shared locks, and from all nodes that contain a replica of Q for exclusive locks. [2] mentions that the biased scheme has the advantage of imposing less overhead on read operations than does the majority protocol. [2] also notes that the additional overhead on writes is a disadvantage, and the biased protocol shares the majority protocol's disadvantage of complexity in handling deadlock. [3] explains that any number of processes may have shared locks on a block at the same time, but only one process can get an exclusive lock at a time. [3] states that if",
+        "latency_ms": 39114.353957993444,
+        "keyword_recall": 1.0,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1108,
+          1528,
+          797,
+          1100,
+          1290,
+          798,
+          1109,
+          1319,
+          1099,
+          1291
+        ]
+      }
+    },
+    {
+      "id": "cc-02",
+      "type": "complex",
+      "topic": "concurrency_control",
+      "question": "How does two-phase locking differ from optimistic concurrency control, and when would you choose one over the other?",
+      "gold_keywords": [
+        "2PL",
+        "growing phase",
+        "shrinking phase",
+        "validation",
+        "read set",
+        "write set",
+        "contention"
+      ],
+      "baseline": {
+        "answer": "Two-phase locking and optimistic concurrency control are both strategies used to manage concurrent transactions, but they differ in their approach and the trade-offs they make.\n\n**Two-phase locking**:\n- **Two Phases**: Transactions must execute in two phases - a growing phase where locks are acquired, and a shrinking phase where locks are released.\n- **Locking Requirements**: All locks are held until the transaction either commits or aborts.\n- **Conflict Resolution**: Conflicts are detected and resolved based on the order of lock acquisitions.\n- **Pros**:\n  - Simple and widely used.\n  - Ensures serializability.\n- **Cons**:\n  - Can lead to deadlocks if not implemented correctly.\n  - May result in cascading rollbacks if one transaction fails.\n  - Can limit concurrency since locks must be held throughout the entire transaction.\n\n**Optimistic Concurrency Control**:\n- **No Explicit Locking**: Transactions do not explicitly acquire locks.\n- **Read-Only Phase**: Typically involves a read-only phase where transactions read the database.\n- **Validation Phase**: Before committing, transactions may perform a validation check to ensure that the data they read is consistent.\n- **Pros**:\n  - Higher concurrency since transactions do not need to hold locks.\n  - Can handle concurrent updates without blocking, improving performance.\n- **Cons**:\n  - Risk of conflicts: If another transaction modifies the data during the read phase, the validation check will fail and the transaction will need to be rolled back.\n  - More complex implementation and handling of conflicts.\n\n**Choosing Between Them**:\n- **Serializability**: If serializability is a critical concern and you can tolerate the overhead and potential issues like deadlocks, cascading rollbacks, and limited concurrency, two-phase locking might be the better choice.\n- **Concurrency**: If high concurrency is crucial, especially in a web or cloud environment where many users might be accessing the database simultaneously, optimistic concurrency control is preferable. However, it requires",
+        "latency_ms": 16922.31229203753,
+        "keyword_recall": 0.42857142857142855,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1114,
+          1115,
+          1222,
+          1203,
+          1152,
+          1099,
+          1179,
+          1100,
+          1183,
+          1160
+        ]
+      },
+      "planner": {
+        "answer": "Two-phase locking and optimistic concurrency control are two different approaches to managing concurrent transactions in a database. \n\n[1] explains that two-phase locking requires a transaction to have two phases: a growing phase where it acquires locks but does not release any, and a shrinking phase where it releases locks but does not acquire any. This protocol ensures conflict serializability and can be modified to ensure strict two-phase locking, where all locks are held until the transaction commits. \n\nOn the other hand, optimistic concurrency control, as described in [6], differentiates between read-only and update transactions. Update transactions perform rigorous two-phase locking, ensuring they can be serialized according to their commit order. However, read-only transactions use a multiversion timestamp-ordering protocol, where the value returned is the contents of the version whose timestamp is the largest timestamp less than or equal to TS( T i ).\n\nIn terms of choosing between the two, two-phase locking is simpler and widely used, making it easier to implement and understand. It ensures serializability and can be easily serialized according to commit order. However, it may result in unnecessary rollbacks and increased locking overhead. \n\nOptimistic concurrency control, on the other hand, is more flexible and can provide better performance, especially in read-heavy workloads. It does not require strict locking and can allow concurrent transactions to read data items without acquiring locks. However, it may not guarantee serializability and can result in conflicts and missed deadlines, especially in real-time databases. \n\nTherefore, the choice between two-phase locking and optimistic concurrency control depends on the specific requirements of the application, such as the workload, the need for serializability, and the trade-off between performance and overhead. [8] mentions that optimistic concurrency protocols perform well in real-time databases, but two-phase locking is simpler and easier to implement. [6] also notes that two-phase locking is simpler and widely used, making it easier to implement and understand. [10] highlights that",
+        "latency_ms": 35589.33112496743,
+        "keyword_recall": 0.2857142857142857,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1114,
+          1222,
+          1174,
+          1115,
+          1099,
+          1160,
+          1124,
+          1203,
+          1517,
+          1122
+        ]
+      }
+    },
+    {
+      "id": "cc-03",
+      "type": "complex",
+      "topic": "concurrency_control",
+      "question": "Compare strict 2PL and MVTO in terms of how they handle read-write conflicts and what guarantees they provide.",
+      "gold_keywords": [
+        "strict 2PL",
+        "MVTO",
+        "timestamp",
+        "multiversion",
+        "cascadeless",
+        "read conflict"
+      ],
+      "baseline": {
+        "answer": "To compare Strict 2PL and MVTO in terms of how they handle read-write conflicts and what guarantees they provide, let's break down the key aspects of each protocol:\n\n### Strict Two-Phase Locking (Strict 2PL):\n**Conflict Serializability:**\n- Strict",
+        "latency_ms": 9317.84716603579,
+        "keyword_recall": 0.3333333333333333,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1538,
+          1158,
+          1152,
+          1114,
+          1539,
+          1115,
+          1160,
+          1102,
+          1222,
+          1120
+        ]
+      },
+      "planner": {
+        "answer": "Strict two-phase locking (2PL) and multiversion two-phase locking (MV2PL) handle read-write conflicts differently and provide different guarantees.\n\n[1] [1] states that strict 2PL requires that all exclusive-mode locks taken by a transaction be held until the transaction commits. This ensures that any data written by an uncommitted transaction are locked in exclusive mode until the transaction commits, preventing any other transaction from reading the data. Therefore, strict 2PL guarantees that no uncommitted transaction's data can be read by other transactions, ensuring serializability.\n\n[8] [8] describes MV2PL, which differentiates between read-only transactions and update transactions. Update transactions perform rigorous two-phase locking, meaning they hold all locks up to the end of the transaction. This allows update transactions to be serialized according to their commit order. The protocol assigns a unique timestamp to each version of a data item, and transactions can be serialized by this commit timestamp. Read-only transactions simply read the current value of the ts-counter before they start and use it to get a snapshot of the database as of their start time. This protocol can be used to implement MV2PL without any central coordination, making it very scalable.\n\n[4] [4] explains that the key reason for non-serializability with snapshot isolation is that read-write conflicts, where a transaction writes a version of an object and another transaction subsequently reads an earlier version of the object, are not tracked by snapshot isolation. This conflict can be represented by a read-write conflict edge from the later transaction to the earlier transaction. This can lead to cycles in the transaction precedence graph, which can cause non-serializable schedules.\n\nIn summary, strict 2PL ensures serializability by holding all locks until the transaction commits, preventing uncommitted transactions' data from being read. MV2PL, on the other hand, uses unique timestamps for each version of a data item and can be implemented without central coordination, making it scalable",
+        "latency_ms": 45158.58229098376,
+        "keyword_recall": 0.5,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1115,
+          1538,
+          1222,
+          1173,
+          1116,
+          1114,
+          1152,
+          1160,
+          1539,
+          1102
+        ]
+      }
+    },
+    {
+      "id": "rec-01",
+      "type": "simple",
+      "topic": "recovery",
+      "question": "What is write-ahead logging and why is it important?",
+      "gold_keywords": [
+        "WAL",
+        "log record",
+        "stable storage",
+        "before modification",
+        "redo",
+        "undo"
+      ],
+      "baseline": {
+        "answer": "Write-ahead logging (WAL) is a method used in database systems to ensure transaction durability and recoverability. The key principle of write-ahead logging is to ensure that all changes made by a transaction are first recorded in a log before they are actually written to the main storage (like the disk). This ensures that if there's a system crash or any other type of failure, the system can recover from the state of the log rather than the database.\n\nHere\u2019s why it is important:\n\n1. **Transaction Durability**: By logging all changes before they are applied to the database, write-ahead logging ensures that if a system crashes, the database can be recovered to a consistent state. The log records provide a history of all changes that need to be applied to restore the database to a previous, consistent state.\n\n2. **Recoverability**: WAL allows a system to recover from a crash by following the log records. The log contains all the necessary information to undo or redo transactions, which is crucial for maintaining data integrity.\n\n3. **Flexibility**: The log can be used not only for recovery but also for other purposes like undo or redo operations, thus providing a more flexible recovery mechanism.\n\n4. **Efficiency**: While write-ahead logging introduces an overhead (since it requires logging each change), it can be optimized. For example, multiple log records can be buffered in memory before being written to stable storage, reducing the overhead of physical writes.\n\n5. **Consistency",
+        "latency_ms": 15004.863249952905,
+        "keyword_recall": 0.8333333333333334,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1215,
+          1240,
+          1220,
+          1239,
+          1265,
+          1242,
+          805,
+          1228,
+          1267,
+          1241
+        ]
+      },
+      "planner": {
+        "answer": "Write-ahead logging (WAL) is a method used in database systems to ensure data consistency in the event of a system crash. It requires that all log records pertaining to data in a block of main memory must be output to stable storage before the block itself is output to stable storage. This rule is important because it ensures that the database can be recovered to a consistent state in case of a crash. Without WAL, if a block of data is output to disk before all log records pertaining to that block are output, the database state can become inconsistent. For example, in a banking example with transactions T0 and T1, if the state of the log is such that transaction T0 issues a read on B, and the block on which B resides is not in main memory and main memory is full, and the block on which A resides is chosen to be output to disk, a crash could result in an inconsistent database state where the values in the accounts A, B, and C are $950, $2000, and $700, respectively. This inconsistency is avoided because the log record must be output to stable storage prior to the output of the block on which A resides, allowing the system to use the log record during recovery to bring the database back to a consistent state. [2] [5] [9] [10] To illustrate, consider the following points:\n\n- [2] explains that the write-ahead logging rule requires that all log records pertaining to data in a block must be output to stable storage before the block itself is output to stable storage.\n- [5] provides the structure of log records, including fields like transaction identifier, data-item identifier, old value, and new value.\n- [9] discusses the importance of log records in recovery, stating that the log records allow the system to undo changes made by a transaction in the event that the transaction must be aborted and to redo changes made by a transaction if the transaction has committed",
+        "latency_ms": 16153.622874990106,
+        "keyword_recall": 0.8333333333333334,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1242,
+          1240,
+          1239,
+          1241,
+          1215,
+          1220,
+          1265,
+          805,
+          1228,
+          1267
+        ]
+      }
+    },
+    {
+      "id": "rec-02",
+      "type": "complex",
+      "topic": "recovery",
+      "question": "Describe how ARIES recovery works: what happens in each of its three phases, and how does it use the log to restore consistency?",
+      "gold_keywords": [
+        "ARIES",
+        "analysis phase",
+        "redo phase",
+        "undo phase",
+        "LSN",
+        "dirty page table",
+        "checkpoint"
+      ],
+      "baseline": {
+        "answer": "ARIES recovery works through three phases: Analysis, Redo, and Undo. Each phase uses the log to restore consistency in the database.\n\n1. **Analysis Phase**: This phase is crucial for determining which transactions need to be rolled back, which pages were dirty at the time of the crash, and the LSN from which the redo phase should start. During this phase:\n   - The log is scanned forward from the last checkpoint. \n   - It identifies the list of transactions that were active at the time of the crash and the transactions that were incomplete.\n   - It also determines which pages were dirty and which transactions have not been committed yet.\n   - The log records are used to build the redo and undo lists. The log sequence number (LSN) of each log record is used to identify which transactions should be rolled back and how far in the log the redo phase should start.\n\n2. **Redo Phase**: This phase restores the database to a state it was in before the crash by replaying the log records. The specific steps include:\n   - Starting from the LSN determined in the analysis phase, the redo phase scans the log forward.\n   - For each transaction, if the transaction was active at the last checkpoint, its records are replayed. If the transaction was incomplete, its records are also replayed.\n   - During the redo phase, if a transaction is identified as incomplete, the redo phase will perform the actions required to bring the database to the state it was in before the crash. This includes applying the value stored in the new log record to the data item.\n   - The redo phase handles both normal log records and redo-only log records. Normal log records are directly applied to the database. Redo-only log records indicate that the operation has already been applied and do not require further action.\n   - The phase ensures that the order of updates is preserved, and it is efficient because the log is read only once per transaction.\n\n3. **Undo Phase",
+        "latency_ms": 17409.377167001367,
+        "keyword_recall": 0.8571428571428571,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1265,
+          1270,
+          1267,
+          1233,
+          1275,
+          1276,
+          1273,
+          1228,
+          1224,
+          1220
+        ]
+      },
+      "planner": {
+        "answer": "ARIES recovery works in three phases: Analysis, Redo, and Undo. Each phase uses the log to restore consistency in the database.\n\n1. **Analysis Phase**: This phase is crucial for determining which transactions need to be undone and which pages were dirty at the time of the crash. Here's how it uses the log:\n   - **LSN (Log Sequence Number)**: ARIES uses LSNs to identify log records and store them in database pages. This allows the system to know which operations have been applied to a database page.\n   - **Dirty Pages**: During this phase, the system identifies pages that were modified but not yet written to disk. These are considered \"dirty\" pages.\n   - **Redo Start Position**: The analysis phase also determines the LSN from which the redo phase should start. This ensures that the redo phase starts from the correct point to restore the database to a consistent state.\n\n2. **Redo Phase**: This phase starts from the LSN determined in the analysis phase and performs a redo, repeating history to bring the database to a state it was in before the crash. Here's how it uses the log:\n   - **Log Records**: The redo phase scans the log forward from the LSN determined in the analysis phase. It replays updates of all transactions that were rolled back before the crash and those that had not committed when the system crashed.\n   - **Incomplete Transactions**: The redo phase also determines all transactions that were incomplete at the time of the crash and must therefore be rolled back. This is done by examining log records of transactions in the undo-list.\n   - **Redo Actions**: For each log record, the redo phase either performs a redo action (if the transaction has committed) or an undo action (if the transaction has been rolled back). The specific steps include:\n     - Setting the `UndoNextLSN` of a CLR to the `PrevLSN` value of the update log record.\n     - Mark",
+        "latency_ms": 16764.166125038173,
+        "keyword_recall": 0.5714285714285714,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1224,
+          1267,
+          1273,
+          1220,
+          1233,
+          1275,
+          1228,
+          1265,
+          1270,
+          1276
+        ]
+      }
+    },
+    {
+      "id": "rec-03",
+      "type": "complex",
+      "topic": "recovery",
+      "question": "What is the difference between steal/no-steal and force/no-force buffer management policies, and how do they affect recovery complexity?",
+      "gold_keywords": [
+        "steal",
+        "no-steal",
+        "force",
+        "no-force",
+        "undo",
+        "redo",
+        "buffer"
+      ],
+      "baseline": {
+        "answer": "The steal/no-steal and force/no-force policies differ primarily in their approach to handling modified blocks in the buffer:\n\n1. **Force/No-Force Buffer Management Policies:**\n   - **Force Policy:** Requires that all modified blocks be output to disk before a transaction commits. This ensures consistency but can slow down transactions and increase recovery complexity.\n   - **No-Force Policy:** Allows transactions to commit even if some modified blocks are not yet written to disk. This can result in more frequent writes to the disk, potentially improving performance but increasing recovery complexity due to the need to handle more unlogged changes.\n\n2. **Steal/No-Steal Buffer Management Policies:**\n   - **Steal Policy:** Allows the system to write modified blocks to disk even if the transactions making those modifications are not yet committed. This reduces the number of writes that need to be logged, improving recovery speed and efficiency.\n   - **No-Steal Policy:** Prevents writes to disk until all transactions modifying the block have committed. This ensures that all changes are logged before being written to disk, which simplifies recovery but can be slower.\n\n### Impact on Recovery Complexity:\n- **Force/No-Force Policies:**\n  - **No-Force Policy:** Simplifies recovery because fewer blocks need to be logged during transactions. However, recovery might be slower because more blocks need to be re-written if they are modified.\n  - **Force Policy:** Requires more complex recovery algorithms because all modifications need to be logged and potentially re-written to disk. This can increase recovery time and complexity.\n\n- **Steal/No-Steal Policies:**\n  - **No-Steal Policy:** Recovery is simpler because only committed changes are written to disk. However, if transactions are still active, it can lead to a buffer filled with unlogged changes, potentially making recovery more complex and slower.\n  - **Steal Policy:** Allows more efficient recovery because writes are logged before being written to disk. Recovery",
+        "latency_ms": 20728.093915968202,
+        "keyword_recall": 0.7142857142857143,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1241,
+          1242,
+          1265,
+          794,
+          1244,
+          803,
+          793,
+          33,
+          804,
+          1228
+        ]
+      },
+      "planner": {
+        "answer": "[2] and [3] provide information about buffer management policies. The no-steal policy does not allow a transaction to commit if it has modified blocks that have not yet been written back to disk. This means that all modified blocks must be written back to disk before a transaction can commit. This policy can lead to higher recovery complexity because the system needs to ensure that all modifications are written to disk before committing a transaction. In contrast, the steal policy allows a transaction to commit even if some of its modified blocks have not yet been written back to disk. This can reduce the number of disk writes required for a transaction, which can simplify the recovery process. However, the steal policy can lead to issues if a transaction performs a large number of updates, as it may fill the buffer with updated blocks that cannot be evicted to disk, preventing the transaction from proceeding. The no-force policy allows a transaction to commit even if it has not written all its modifications to disk, which can reduce the number of disk writes and improve commit speed. However, it can also lead to inconsistencies if a transaction crashes before all its modifications are written to disk. The recovery algorithms described in this chapter work correctly with the no-force policy, but they can be optimized for deferred modification, where a transaction may not commit until all its modifications are written to disk. [2] and [3] also mention that the force policy requires that all modified blocks be written back to disk before a transaction can commit, which can increase recovery complexity. The no-force policy, on the other hand, allows a transaction to commit even if some of its modifications are not yet written to disk, which can simplify the recovery process. [3] further explains that the no-force policy can reduce the number of disk writes, which can improve commit speed and reduce the number of output operations. [2] and [3] also note that the no-force policy can allow multiple updates to accumulate on a block before it is written to disk, which",
+        "latency_ms": 46542.88516700035,
+        "keyword_recall": 0.7142857142857143,
+        "judge_score": 3.0,
+        "chunks_used": [
+          794,
+          1241,
+          793,
+          1220,
+          1221,
+          1242,
+          33,
+          802,
+          804,
+          799
+        ]
+      }
+    },
+    {
+      "id": "qopt-01",
+      "type": "simple",
+      "topic": "query_optimization",
+      "question": "What is the purpose of a query optimizer in a relational database?",
+      "gold_keywords": [
+        "cost estimation",
+        "execution plan",
+        "relational algebra",
+        "equivalent expressions"
+      ],
+      "baseline": {
+        "answer": "The purpose of a query optimizer in a relational database is to choose the most efficient way to execute a given SQL query. Specifically:\n\n1. **Minimizing Execution Cost**: The optimizer aims to generate a query-evaluation plan that minimizes the cost of executing the query, which can include factors like execution time, disk I/O, and CPU usage.\n\n2. **Generating Logical Equivalents**: The optimizer transforms the original query into logically equivalent forms, which helps in exploring different ways to evaluate the query without changing the result.\n\n3. **Estimating Costs**: Using statistics about the database relations, the optimizer estimates the cost of each operation in a query plan, such as the cost of performing a join, a projection, or a selection.\n\n4. **Choosing the Best Plan**: From all possible query-evaluation plans, the optimizer selects the one with the lowest estimated cost. This plan is then used to execute the query efficiently.\n\n5. **Heuristics**: To reduce the cost of optimization, optimizers use various heuristics. These heuristics can quickly find a good plan without exhaustively exploring the entire space of possible plans.\n\n6. **Dynamic Programming**: Some optimizers use dynamic programming techniques to handle complex queries, such as those involving multiple tables or aggregates.\n\n7. **Cost-Based Join-Order Optimization**: For join operations, optimizers consider different join orders and algorithms to find the most efficient combination. This is a core aspect of query optimization.\n\n8. **Cache and Heuristics**: Optimizers often cache previously optimized plans and use heuristics to reduce the cost of optimization when the same query is executed again with similar parameters.\n\nIn essence, the query optimizer helps in translating a high-level SQL query into an efficient low-level execution plan, thereby improving query performance. <<<ANSWER>>><",
+        "latency_ms": 16291.467167029623,
+        "keyword_recall": 0.25,
+        "judge_score": 5.0,
+        "chunks_used": [
+          1667,
+          908,
+          989,
+          1031,
+          1028,
+          906,
+          77,
+          1062,
+          35,
+          1019
+        ]
+      },
+      "planner": {
+        "answer": "The purpose of a query optimizer in a relational database is to find the least costly query-evaluation plan. The optimizer generates alternative plans that produce the same result as the given expression and chooses the least costly one. This involves steps such as generating logically equivalent expressions, annotating them to generate alternative query-evaluation plans, and estimating the cost of each plan to choose the least costly one. [3] [6] [7] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52] [53] [54] [55] [56] [57] [58] [59] [60] [61] [62] [63] [64] [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78] [79] [80] [81] [82] [83] [84] [85] [86] [87] [8",
+        "latency_ms": 15939.040082972497,
+        "keyword_recall": 0.25,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1062,
+          1667,
+          989,
+          1031,
+          906,
+          77,
+          908,
+          1028,
+          35,
+          1019
+        ]
+      }
+    },
+    {
+      "id": "qopt-02",
+      "type": "complex",
+      "topic": "query_optimization",
+      "question": "How does a cost-based optimizer estimate the cost of a join, and what role do statistics and histograms play in this estimation?",
+      "gold_keywords": [
+        "selectivity",
+        "histogram",
+        "cardinality estimation",
+        "join cost",
+        "nested loop",
+        "hash join"
+      ],
+      "baseline": {
+        "answer": "To estimate the cost of a join operation in a cost-based optimizer, the system uses various statistical and histogram-based information about the sizes and distributions of the relations involved. Here\u2019s a breakdown of how this works:\n\n1. **Estimating Join Sizes**: The basic approach to estimating the size of a join operation \\( r \\bowtie \\theta s \\) involves transforming it into a Cartesian product and then applying selection operations. For example, \\( r \\bowtie \\theta s \\) can be rewritten as \\( \\sigma_{\\theta}(r \\times s) \\). The size of the Cartesian product \\( r \\times s \\) can be estimated using the sizes of the individual relations \\( r \\) and \\( s \\). \n\n2. **Statistics**: The system uses statistical information about the relations such as the number of tuples (\\( n_r \\) and \\( n_s \\)) and the number of distinct values (\\( V(A, r) \\) and \\( V(A, s) \\) for attributes \\( A \\)). These statistics are typically stored in the database system's catalog or can be computed from the data.\n\n3. **Histograms**: For more accurate estimation, especially when the assumption that each value appears with equal probability does not hold (which is often not the case in real-world databases), the system can use histograms. Histograms provide a distribution of the values for each attribute in the relations, allowing the optimizer to estimate join sizes more accurately by considering the number of rows with values in a given range instead of just the total number of tuples.\n\n4. **Join Size Estimation Techniques**:\n   - For a theta join \\( r \\bowtie \\theta s \\), the size of the join can be estimated by first computing the size of the Cartesian product \\( r \\times s \\), and then applying a selection operation based on \\( \\theta \\).\n   - Histograms can be used to break down the Cartesian product into ranges and apply the selection operation",
+        "latency_ms": 17978.61558297882,
+        "keyword_recall": 0.16666666666666666,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1004,
+          1019,
+          1667,
+          1028,
+          1030,
+          952,
+          989,
+          1014,
+          1026,
+          1031
+        ]
+      },
+      "planner": {
+        "answer": "A cost-based optimizer estimates the cost of a join operation by considering the size and other statistics of its inputs, such as the size of the relations involved in the join. To estimate these statistics, the optimizer uses the stored statistics in the database system catalogs and applies them to the join operation. Specifically, the optimizer estimates the size of the result of the join operation, which is crucial for determining the cost of the join algorithm.\n\nStatistics about the database relations, such as relation sizes and index depths, are stored in the database-system catalogs. These statistics are used to estimate the size of the result of various relational operations, including joins. The size estimates computed as part of these statistics can be used to compute the cost of algorithms for individual operations in the query plan and to add up the costs to find the cost of an entire query plan.\n\nFor example, if the optimizer thinks that the relations involved in a join have very few tuples, it may estimate the join size to be smaller, which would result in a lower estimated cost for the join algorithm. However, if the optimizer has inaccurate statistics, the estimated join size may be too high, leading to a higher estimated cost.\n\nIn cases where histograms are available on the join attributes of both relations, and both histograms have the same ranges, the optimizer can use the number of rows with values in the range instead of the total number of tuples in the relations. This can provide a more accurate estimate of the join size, especially if the assumption that each value appears with equal probability does not hold.\n\nIn summary, the role of statistics and histograms in estimating the cost of a join operation is to provide accurate size estimates, which are essential for determining the cost of the join algorithm. These estimates are computed using stored statistics and can be refined using histograms when available. [8] [9] [10] [7] [1] [10] [10] [10] [10] [10] [10] [",
+        "latency_ms": 16166.638416994829,
+        "keyword_recall": 0.16666666666666666,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1019,
+          1026,
+          1028,
+          1030,
+          952,
+          989,
+          1014,
+          1004,
+          1667,
+          1031
+        ]
+      }
+    },
+    {
+      "id": "btree-01",
+      "type": "simple",
+      "topic": "indexing",
+      "question": "What is the structure of a B+ tree index?",
+      "gold_keywords": [
+        "leaf node",
+        "internal node",
+        "balanced",
+        "pointer",
+        "search key",
+        "order"
+      ],
+      "baseline": {
+        "answer": "The structure of a B+ tree index is as follows:\n\n1. **Balanced Tree**: Each path from the root to a leaf node is of the same length. This balance is what ensures efficient performance for operations like lookup, insertion, and deletion.\n\n2. **Nodes**: \n   - **Leaf Nodes**: Store data records.\n   - **Non-Leaf Nodes**: Store pointers to child nodes or data records. Unlike in B-tree, non-leaf nodes also store pointers to data records (known as \"buckets\"). \n\n3. **Node Size**: Typically, nodes are as large as a disk block, which is around 4 kilobytes. This allows nodes to have a large number of pointers, making the tree \"fat and short\".\n\n4. **Number of Children**: \n   - A non-leaf node has between \u2308 n/2 \u2309 and n children, where n is a fixed number for a particular B+ tree.\n   - The root node has between 2 and n children.\n\n5. **Search Key Storage**: \n   - Search keys do not appear repeatedly in the tree. Each key value appears only once in a leaf node.\n   - Search keys that appear in non-leaf nodes appear nowhere else in the B+ tree.\n\n6. **Fanout**: \n   - The fanout of a node can be increased using prefix compression. Instead of storing the entire search key value, only a sufficient prefix is stored to differentiate between key values in the subtrees.\n\n7. **Height**: \n   - The height of the tree is determined by the number of nodes needed to represent the file, and it is balanced to ensure that every path from the root to a leaf is of the same length.\n\n8. **Leaf and Non-Leaf Nodes**:\n   - **Leaf Nodes**: Store actual records or pointers to records.\n   - **Non-Leaf Nodes**: Store pointers to child nodes or data records (buckets).\n\n9. **Insert",
+        "latency_ms": 17671.058333013207,
+        "keyword_recall": 0.6666666666666666,
+        "judge_score": 4.0,
+        "chunks_used": [
+          834,
+          841,
+          867,
+          857,
+          869,
+          837,
+          858,
+          863,
+          864,
+          866
+        ]
+      },
+      "planner": {
+        "answer": "A B+ tree index is a balanced tree structure where every path from the root to a leaf node is of the same length. Each nonleaf node in the tree (other than the root) has between \u2308 n/2 \u2309 and n children, where n is fixed for a particular tree; the root has between 2 and n children. [1] [2] [6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52] [53] [54] [55] [56] [57] [58] [59] [60] [61] [62] [63] [64] [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78] [79] [80] [81] [82] [83] [84] [85] [86] [",
+        "latency_ms": 15936.319791013375,
+        "keyword_recall": 0.3333333333333333,
+        "judge_score": 3.0,
+        "chunks_used": [
+          834,
+          867,
+          857,
+          837,
+          858,
+          841,
+          869,
+          863,
+          864,
+          866
+        ]
+      }
+    },
+    {
+      "id": "btree-02",
+      "type": "complex",
+      "topic": "indexing",
+      "question": "Compare B+ tree indexes with hash indexes in terms of supported operations, performance characteristics, and when each is preferred.",
+      "gold_keywords": [
+        "B+ tree",
+        "hash index",
+        "range query",
+        "equality",
+        "dynamic hashing",
+        "ordered access"
+      ],
+      "baseline": {
+        "answer": "B+ Tree Indexes vs. Hash Indexes\n\n**Supported Operations:**\n\n- **Hash Indexes:**\n  - **Supported:**\n    - Equality queries on search keys (e.g., finding records with a specific attribute value).\n  - **Not Supported:**\n    - Range queries (e.g., finding records where attribute values fall within a specified range).\n\n- **B+ Tree Indexes:**\n  - **Supported:**\n    - Equality queries on search keys.\n    - Range queries.\n  - **Not Supported:**\n    - No specific mention of range queries, but as they are supported in B+ trees, they can be inferred. However, the text emphasizes range queries are not easily supported by hash indices.\n\n**Performance Characteristics:**\n\n- **Hash Indexes:**\n  - **Performance:**\n    - Efficient for equality queries.\n    - Can handle large amounts of data with low overhead since there are no rebalancing steps.\n  - **Advantages:**\n    - Fast access time for equality queries, typically O(1).\n    - Handles range queries by bucketing, which is less efficient compared to B+ trees.\n    - Requires space for bucket tables, which can increase space overhead.\n  - **Disadvantages:**\n    - Not suitable for range queries.\n    - Can lead to high space overhead.\n    - Performance degrades as data size increases.\n\n- **B+ Tree Indexes:**\n  - **Performance:**\n    - Efficient for both equality and range queries.\n    - Balanced structure allows for efficient insertion, deletion, and traversal.\n  - **Advantages:**\n    - Supports both equality and range queries, making it versatile for a wide range of applications.\n    - Balanced structure ensures that the height of the tree is approximately log(N), leading to optimal performance.\n    - Minimal space overhead compared to hash indexes, as nodes can be partially empty.\n  - **Disadvantages:**\n    - Slower access times",
+        "latency_ms": 18148.433041991666,
+        "keyword_recall": 0.5,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1645,
+          834,
+          818,
+          874,
+          875,
+          841,
+          863,
+          867,
+          869,
+          830
+        ]
+      },
+      "planner": {
+        "answer": "[2] [6] B + -tree and B-tree indexes are similar but differ in how they handle search-key values. B + -trees store search-key values only once in leaf nodes, while B-trees store them only once in nonleaf nodes, making B + -trees more space-efficient. However, B + -trees require additional pointers in nonleaf nodes to point to either file records or buckets for the associated search key, which can increase overhead.\n\nIn terms of supported operations, both B + -trees and B-trees support range queries efficiently. However, B + -trees are more suitable for range queries as they are designed to handle large files and frequent updates more gracefully. [5] [10] B + -trees are particularly advantageous for applications that require frequent range queries, as they can handle relation size increases gracefully through a series of node splits, each of which is of low cost.\n\nPerformance-wise, B + -trees are known for their low I/O operations cost. [7] [8] [9] The worst-case complexity for insertion and deletion operations in B + -trees is proportional to the height of the tree, which is usually small (typically five or less). This results in fewer I/O operations than the worst-case bounds. However, B + -trees can be less efficient with random writes, as each write operation may require a random read and write operation, leading to slower performance. [9] On the other hand, hash indexes are faster for random writes and can handle large datasets more efficiently. [9] [10] Hash indexes are simpler to implement and can be faster for certain types of queries, especially those involving range queries, but they are less efficient for other types of queries such as finding records with a specified attribute value.\n\nIn summary, B + -trees are preferred for applications that require frequent range queries and can handle large datasets, while hash indexes are preferred for applications that require fast random writes and simpler implementation. The",
+        "latency_ms": 57530.87120800046,
+        "keyword_recall": 0.16666666666666666,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1645,
+          1657,
+          873,
+          872,
+          834,
+          867,
+          853,
+          864,
+          886,
+          818
+        ]
+      }
+    },
+    {
+      "id": "buf-01",
+      "type": "simple",
+      "topic": "buffer_management",
+      "question": "What is the purpose of the buffer manager in a database system?",
+      "gold_keywords": [
+        "buffer pool",
+        "main memory",
+        "disk block",
+        "page replacement",
+        "pin"
+      ],
+      "baseline": {
+        "answer": "The buffer manager in a database system serves a critical purpose in managing the interaction between main memory and disk storage. Its main purposes are:\n\n1. **Data Cache**: The buffer manager keeps copies of frequently accessed data blocks in main memory to minimize the time needed to fetch them from disk. This is particularly important as data access from disk is much slower than accessing data from main memory.\n\n2. **Data Management**: It facilitates the storage, retrieval, and updating of data in the database, managing the space available in main memory for storing these blocks.\n\n3. **Consistency and Performance**: The buffer manager ensures that data remains consistent (i.e., correct) despite system failures and manages the allocation of memory to minimize the number of disk accesses needed, thereby improving performance.\n\n4. **Concurrency Control**: It helps manage concurrency by ensuring that only one process has exclusive access to a block while another may only have shared access. This is important for maintaining data integrity in concurrent transactions.\n\n5. **Optimization**: It optimizes the database system by deciding which blocks to cache in main memory, based on usage patterns and other factors, such as the probability of future references.\n\n6. **Redundancy and Management**: It maintains a copy of every block on disk, ensuring that if a block is removed from main memory, it can be easily restored, and it helps in managing the allocation of memory space.\n\n7. **Transaction Management**: It is involved in transaction management, ensuring that updates to data blocks are properly managed and stored before being written back to disk.\n\nIn essence, the buffer manager acts as a bridge between the disk and main memory, enabling efficient data management and improving the overall performance of the database system.",
+        "latency_ms": 15336.64991700789,
+        "keyword_recall": 0.2,
+        "judge_score": 5.0,
+        "chunks_used": [
+          794,
+          33,
+          793,
+          1244,
+          803,
+          796,
+          32,
+          814,
+          797,
+          1210
+        ]
+      },
+      "planner": {
+        "answer": "The purpose of the buffer manager in a database system is to minimize the number of block transfers between the disk and memory. It fetches data from disk storage into main memory and decides which blocks to keep in memory to maximize the chance that, when a block is accessed, it is already in main memory, thus reducing the need for disk access. [3] The buffer manager also manages the allocation of space in main memory for storing blocks and ensures that blocks are not evicted when they are being read or written, to avoid data inconsistency. [7] [10] It is crucial for ensuring that data access from disk is as fast as possible by keeping as many blocks as possible in main memory. [3] [10] [7] [10] The buffer manager also supports operations like pinning and unpinning blocks to ensure that blocks are not evicted while they are being read or written. [7] [10] [10] In summary, the buffer manager aims to optimize the performance of the database system by efficiently managing the storage of data blocks in memory and on disk. [3] [10] [7] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [10] [",
+        "latency_ms": 15282.583291991614,
+        "keyword_recall": 0.4,
+        "judge_score": 4.0,
+        "chunks_used": [
+          794,
+          33,
+          793,
+          803,
+          797,
+          1244,
+          796,
+          32,
+          814,
+          1210
+        ]
+      }
+    },
+    {
+      "id": "buf-02",
+      "type": "complex",
+      "topic": "buffer_management",
+      "question": "How does the buffer manager interact with the recovery system, and why must dirty pages be handled carefully during checkpointing?",
+      "gold_keywords": [
+        "dirty page",
+        "checkpoint",
+        "WAL",
+        "flush",
+        "buffer pool",
+        "force-write"
+      ],
+      "baseline": {
+        "answer": "To understand the buffer manager's interaction with the recovery system and why dirty pages must be handled carefully during checkpointing, let's break down the key points:\n\n### Buffer Manager Interaction with the Recovery System\n\n1. **Buffer Manager Responsibilities:**\n   - The buffer manager is responsible for managing the buffer pool, which holds disk blocks in main memory. It allocates space in the buffer for incoming blocks, evicts blocks when necessary, and ensures that the disk blocks in the buffer are up-to-date.\n\n2. **Recovery System Constraints:**\n   - The recovery subsystem imposes strict constraints on the buffer manager. Specifically:\n     - Blocks must not be updated while checkpointing is in progress. This means any transaction that needs to be checkpointed must halt its update operations.\n     - Blocks must not be written back to disk while an update is in progress. To enforce this, the buffer manager must obtain a shared lock on the block before writing it to disk.\n\n3. **Interaction Mechanism:**\n   - The buffer manager interacts with the crash-recovery subsystem through mechanisms such as locks and transaction status checks. When a transaction needs to be checkpointed, the buffer manager must ensure that all updates are completed and that blocks are in a consistent state.\n   - During the checkpoint operation, the buffer manager ensures that all dirty pages (i.e., pages that have been modified in memory but not yet written to the disk) are flushed to the disk. This is done by acquiring exclusive locks on the blocks and writing out all pending log records and then the blocks themselves.\n\n### Why Dirty Pages Must Be Handled Carefully During Checkpointing\n\n1. **Preventing Data Loss During Checkpointing:**\n   - Dirty pages are those pages that have been modified in memory but not yet written to disk. During checkpointing, if a page is still dirty, it means that the corresponding block in the buffer has not been updated to the disk. This can lead to data loss if the system crashes before",
+        "latency_ms": 16348.996583023109,
+        "keyword_recall": 0.6666666666666666,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1228,
+          804,
+          1246,
+          799,
+          794,
+          1230,
+          1279,
+          1266,
+          1243,
+          1233
+        ]
+      },
+      "planner": {
+        "answer": "The buffer manager interacts with the recovery system to ensure that the system can recover from crashes. Specifically, the buffer manager must seek permission from the crash-recovery subsystem before writing out a block, especially if the block has been modified. This is because the crash-recovery subsystem may demand that certain other blocks be force-output before it grants permission to the buffer manager to output the block requested. This interaction is crucial for maintaining the integrity of the database during recovery.\n\nDirty pages are handled carefully during checkpointing because they represent blocks that have been updated in memory but not yet written to disk. If a checkpoint occurs while a dirty page is being updated, the checkpoint record may not accurately reflect the current state of the database. Therefore, during checkpointing, the buffer manager must ensure that all dirty pages are written to disk before the checkpoint is finalized. This is typically enforced by acquiring exclusive locks on all buffer blocks and the log before the checkpoint operation is performed. Once the checkpoint is completed, these locks can be released.\n\n[11] (source: data/silberschatz--extracted_markdown.md)\n. Thus, only transactions  Page 922 T 67 , T 69 ,..., T 100 need to be considered during the recovery scheme. Each of them needs to be redone if it has completed (i.e., either committed or aborted); otherwise, it was incomplete and needs to be undone. Consider the set of transactions L in a checkpoint log record. For each transaction T i in L , log records of the transaction that occur prior to the checkpoint log record may be needed to undo the transaction, in case it does not commit. However, all log records prior to the earliest of the &lt; T i start &gt; log records, among transactions T i in L , are not needed once the checkpoint has completed. These log records can be erased whenever the database system needs to reclaim the space occupied by these records. The requirement that transactions",
+        "latency_ms": 15421.634541999083,
+        "keyword_recall": 0.3333333333333333,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1230,
+          1228,
+          1246,
+          799,
+          794,
+          1279,
+          1243,
+          804,
+          1233,
+          1266
+        ]
+      }
+    },
+    {
+      "id": "dist-01",
+      "type": "complex",
+      "topic": "distributed_db",
+      "question": "What are the key differences between data replication and data fragmentation in a distributed database, and how does each affect query processing and fault tolerance?",
+      "gold_keywords": [
+        "replication",
+        "fragmentation",
+        "availability",
+        "partition",
+        "consistency",
+        "query routing"
+      ],
+      "baseline": {
+        "answer": "In distributed databases, data replication and data fragmentation are both used to improve availability and fault tolerance, but they serve distinct purposes and affect query processing and fault tolerance in different ways:\n\n### Data Replication\n\n1. **Purpose and Mechanism**:\n   - **Purpose**: Data replication involves copying data across multiple nodes or geographically dispersed locations to ensure that data is not lost even if a node fails.\n   - **Mechanism**: Each data item is replicated across multiple nodes, and the system maintains a catalog that records the locations of these replicas. When a transaction requests access to a data item, it can be obtained from any replica, ensuring that the transaction can continue even if one replica fails.\n\n2. **Impact on Query Processing**:\n   - **Efficiency**: Replicating data can reduce latency in query processing because data is closer to the nodes where queries are executed, minimizing the need to fetch data from remote locations.\n   - **Complexity**: However, managing a large number of replicas can introduce complexity in maintaining consistency and handling updates. This is often addressed through various techniques such as distributed consensus algorithms.\n\n3. **Impact on Fault Tolerance**:\n   - **Redundancy**: Replicating data enhances fault tolerance by ensuring that data is accessible even if one or more replicas fail. The system can continue to function with the remaining replicas.\n   - **Consistency**: Ensuring consistency across replicas is crucial. Techniques like distributed consensus algorithms (e.g., Paxos, Raft) are used to handle updates to replicated data, ensuring that all replicas eventually agree on the state.\n\n### Data Fragmentation\n\n1. **Purpose and Mechanism**:\n   - **Purpose**: Data fragmentation involves partitioning a large dataset into smaller, manageable pieces that can be stored and queried independently across different nodes or data centers.\n   - **Mechanism**: The data is divided into partitions, each stored on a different node or across different data centers. Query processing involves fetching data from the appropriate partitions",
+        "latency_ms": 16596.663458971307,
+        "keyword_recall": 0.8333333333333334,
+        "judge_score": 4.0,
+        "chunks_used": [
+          1521,
+          1325,
+          1326,
+          1281,
+          1284,
+          1526,
+          622,
+          39,
+          1444,
+          1382
+        ]
+      },
+      "planner": {
+        "answer": "[1] and [2] provide information about the differences between data replication and data fragmentation in a distributed database. Data replication involves creating multiple copies of the database across different nodes, while data fragmentation involves partitioning the data across multiple nodes. In terms of query processing, data replication allows for faster query processing as it can distribute the load across multiple nodes, whereas data fragmentation can lead to slower query processing due to the need to access multiple nodes to retrieve the required data. Regarding fault tolerance, data replication ensures that the database continues to function even if a node fails, as replicas can continue to serve queries. In contrast, data fragmentation does not provide the same level of fault tolerance, as a failure in one node may result in the loss of data that is fragmented across multiple nodes. [2] also mentions that in distributed databases, nodes tend to vary more in size and function, which can affect query processing and fault tolerance. [2] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [1] [2] [3] [4] [5] [6] [7] [8] [9",
+        "latency_ms": 57368.28258400783,
+        "keyword_recall": 0.5,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1325,
+          1326,
+          1284,
+          1553,
+          608,
+          1328,
+          1521,
+          1551,
+          1382,
+          613
+        ]
+      }
+    },
+    {
+      "id": "txn-01",
+      "type": "simple",
+      "topic": "transactions",
+      "question": "What are the ACID properties of a database transaction?",
+      "gold_keywords": [
+        "atomicity",
+        "consistency",
+        "isolation",
+        "durability"
+      ],
+      "baseline": {
+        "answer": "The ACID properties of a database transaction are:\n\n1. **Atomicity**: This ensures that either all operations of a transaction are performed successfully, or none are. In other words, a transaction must be indivisible, and if it starts, it must complete successfully.\n\n2. **Consistency**: This ensures that the database remains in a consistent state after a transaction completes successfully. Any changes made by the transaction must preserve the database's integrity and avoid violating any database constraints.\n\n3. **Isolation**: This ensures that concurrent transactions do not interfere with each other. Each transaction appears to execute independently, and the effects of one transaction are not visible to others until it completes.\n\n4. **Durability**: After a transaction completes successfully, the changes made by the transaction must be permanent and persist, even if there are system failures.\n\nThese properties collectively ensure that database transactions are reliable, consistent, isolated, and persistent.<<<ANSWER>>>\n\nThis summary aligns closely with the information provided in the textbook excerpts you shared.",
+        "latency_ms": 11296.06295801932,
+        "keyword_recall": 1.0,
+        "judge_score": 5.0,
+        "chunks_used": [
+          1067,
+          36,
+          1065,
+          1063,
+          1069,
+          1071,
+          1064,
+          1479,
+          1068,
+          1066
+        ]
+      },
+      "planner": {
+        "answer": "The ACID properties of a database transaction are:\n\n[1] - Consistency: Ensures that the sum of the values of the affected accounts remains unchanged. If the database is consistent before a transaction, it must remain consistent after the transaction. Ensuring consistency is the responsibility of the application programmer.\n\n[2] - Atomicity: Ensures that either all actions of a transaction are executed completely, or none are. This means that a transaction is an indivisible unit of work, and if it starts, it must complete.\n\n[3] - Durability: Ensures that once a transaction completes successfully, its effects persist even if there is a system failure. This means that changes made by a transaction must be saved to disk and are not lost.\n\n[4] - Isolation: Ensures that transactions do not interfere with each other. Even if multiple transactions are executing concurrently, the system guarantees that each transaction appears to have executed in isolation, unaware of other transactions. [2] [1] [3] [4] These properties collectively ensure that transactions are reliable, consistent, durable, and isolated, making them a fundamental concept in database management. [1] [2] [3] [4] To summarize, a transaction must be atomic (all or nothing), consistent (preserves data integrity), durable (changes persist), and isolated (no interference from other transactions). [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1] [2] [3] [4] [1",
+        "latency_ms": 15139.183208986651,
+        "keyword_recall": 1.0,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1067,
+          1069,
+          1479,
+          1063,
+          1071,
+          1066,
+          36,
+          1065,
+          1064,
+          1068
+        ]
+      }
+    },
+    {
+      "id": "txn-02",
+      "type": "complex",
+      "topic": "transactions",
+      "question": "How do different isolation levels trade off between consistency and performance, and what anomalies does each level permit?",
+      "gold_keywords": [
+        "read uncommitted",
+        "read committed",
+        "repeatable read",
+        "serializable",
+        "dirty read",
+        "phantom",
+        "non-repeatable read"
+      ],
+      "baseline": {
+        "answer": "Different isolation levels in databases trade off between consistency and performance in various ways, each allowing different levels of anomalies. Here's an overview:\n\n1. **Serializable Isolation Level**:\n   - **Consistency**: Ensures that the database remains consistent if executed in isolation. It requires that all transactions be executed as if they were serialized, one after another.\n   - **Performance**: May significantly degrade performance due to the need for strong locking or other mechanisms to ensure serializability.\n   - **Anomalies**: Permits only serializable execution. This means that if two transactions try to update the same data, one must follow the other in the serialization order. This can lead to delays in execution for other transactions that wait for the serialized transaction to complete.\n\n2. **Repeatable Read Isolation Level**:\n   - **Consistency**: Allows only committed data to be read, similar to Read Committed. Ensures that a transaction will not see uncommitted data.\n   - **Performance**: Allows a higher degree of concurrency compared to Serializable. Transactions can read data as it was at the start of the transaction, but they may not see the changes made by other transactions between reads, which can lead to inconsistencies.\n   - **Anomalies**: Allows non-repeatable reads where a transaction may read the same data item multiple times and see different versions of it, depending on when other transactions update it.\n\n3. **Read Committed Isolation Level**:\n   - **Consistency**: Only committed data can be read. This ensures that transactions do not see uncommitted data.\n   - **Performance**: Provides a good balance between consistency and performance. It allows higher concurrency compared to Repeatable Read because transactions can read data as it was committed when the transaction started.\n   - **Anomalies**: Allows dirty reads (reading uncommitted data), non-repeatable reads (repeated reads of the same data item show different values), and phantom reads (reading rows that did not exist when the transaction",
+        "latency_ms": 16526.966875011567,
+        "keyword_recall": 0.8571428571428571,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1095,
+          1094,
+          1067,
+          1097,
+          1103,
+          1102,
+          1172,
+          1071,
+          1677,
+          1163
+        ]
+      },
+      "planner": {
+        "answer": "Different isolation levels in databases trade off between consistency and performance. The isolation levels provided by SQL include serializable, repeatable read, read committed, and read uncommitted. Each level has its trade-offs:\n\n[1] - Repeatable read allows only committed data to be read and requires that between two reads of a data item by a transaction, no other transaction is allowed to update it. However, it does not guarantee serializability with respect to other transactions. For example, a transaction may find some committed data but not find other data that was inserted by the same transaction before it was committed.\n\n[2] - Read committed allows only committed data to be read, but does not require repeatable reads. Thus, between two reads of a data item by the transaction, another transaction may have updated the data item and committed.\n\n[3] - Read uncommitted allows uncommitted data to be read. It is the lowest isolation level allowed by SQL. It does not disallow dirty writes, which are writes to a data item that has already been written by another transaction that has not yet committed or aborted.\n\n[6] - The ACID properties (Atomicity, Consistency, Isolation, Durability) are often compromised to improve performance. For instance, some systems allow different transactions to run under different isolation levels, which can be used to avoid serializability problems. Some systems offer snapshot isolation, which provides too much isolation and can lead to inconsistent states that cannot occur in serializable executions. [8] - Snapshot isolation ensures that a transaction reads an old version of a data item rather than a newer version written by an uncommitted transaction or by a transaction that should come later in the serialization order. However, it can lead to anomalies where a transaction may fail to read updates made by other transactions, resulting in inconsistent states. [10] - In some applications, all transactions are from a predetermined set of transactions, making it possible to analyze and decide on what conflicts to introduce to",
+        "latency_ms": 36483.513207989745,
+        "keyword_recall": 0.5714285714285714,
+        "judge_score": 3.0,
+        "chunks_used": [
+          1095,
+          1096,
+          1094,
+          1097,
+          1172,
+          1067,
+          1677,
+          1103,
+          1102,
+          1175
+        ]
+      }
+    }
+  ]
+}

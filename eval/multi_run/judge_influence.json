@@ -1,0 +1,107 @@
+{
+  "description": "For each question, compute (mean_judge_without_q - mean_judge_with_all) within a pass, then take absolute value and average across passes. Large values mean the question strongly influences the reported mean.",
+  "baseline_top_movers": [
+    {
+      "id": "cc-03",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.051656920077972845,
+      "passes": 3
+    },
+    {
+      "id": "rec-03",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.051656920077972845,
+      "passes": 3
+    },
+    {
+      "id": "txn-02",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.051656920077972845,
+      "passes": 3
+    },
+    {
+      "id": "2pc-02",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.04093567251461986,
+      "passes": 3
+    },
+    {
+      "id": "buf-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.04093567251461986,
+      "passes": 3
+    },
+    {
+      "id": "cc-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.04093567251461986,
+      "passes": 3
+    },
+    {
+      "id": "qopt-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.04093567251461986,
+      "passes": 3
+    },
+    {
+      "id": "2pc-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.040935672514619714,
+      "passes": 3
+    },
+    {
+      "id": "txn-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.040935672514619714,
+      "passes": 3
+    },
+    {
+      "id": "qopt-02",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.0370370370370372,
+      "passes": 3
+    }
+  ],
+  "planner_top_movers": [
+    {
+      "id": "rec-03",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.05750487329434684,
+      "passes": 3
+    },
+    {
+      "id": "buf-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.05360623781676388,
+      "passes": 3
+    },
+    {
+      "id": "cc-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.05360623781676388,
+      "passes": 3
+    },
+    {
+      "id": "qopt-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.05360623781676388,
+      "passes": 3
+    },
+    {
+      "id": "txn-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.05360623781676388,
+      "passes": 3
+    },
+    {
+      "id": "cc-03",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.03898635477582838,
+      "passes": 3
+    },
+    {
+      "id": "dist-01",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.03898635477582838,
+      "passes": 3
+    },
+    {
+      "id": "btree-02",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.02046783625730993,
+      "passes": 3
+    },
+    {
+      "id": "buf-02",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.02046783625730993,
+      "passes": 3
+    },
+    {
+      "id": "cc-02",
+      "abs_mean_shift_mean_judge__avg_across_passes": 0.02046783625730993,
+      "passes": 3
+    }
+  ]
+}

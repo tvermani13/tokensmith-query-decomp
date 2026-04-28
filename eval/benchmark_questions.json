@@ -1,0 +1,216 @@
+{
+  "metadata": {
+    "description": "Benchmark questions for TokenSmith query decomposition evaluation",
+    "textbook": "Silberschatz Database System Concepts",
+    "version": "1.0"
+  },
+  "questions": [
+    {
+      "id": "2pc-01",
+      "topic": "2PC",
+      "type": "simple",
+      "question": "What problem does two-phase commit solve in a distributed database?",
+      "gold_sections": ["23.2.1"],
+      "gold_keywords": ["atomicity", "coordinator", "commit", "abort", "ready state"]
+    },
+    {
+      "id": "2pc-02",
+      "topic": "2PC",
+      "type": "simple",
+      "question": "What are the two phases in the two-phase commit protocol?",
+      "gold_sections": ["23.2.1"],
+      "gold_keywords": ["voting", "decision", "prepare", "commit", "abort"]
+    },
+    {
+      "id": "2pc-03",
+      "topic": "2PC",
+      "type": "complex",
+      "question": "Why is two-phase commit a blocking protocol, and what specific failure scenario causes participants to block?",
+      "gold_sections": ["23.2.1", "23.8"],
+      "gold_keywords": ["blocking", "coordinator failure", "ready state", "cannot determine decision"],
+      "expected_sub_queries": [
+        "What does it mean for a commit protocol to be blocking?",
+        "What happens when the coordinator fails during 2PC?"
+      ]
+    },
+    {
+      "id": "2pc-04",
+      "topic": "2PC",
+      "type": "complex",
+      "question": "How does 2PC ensure correctness through stable storage, and what does the three-phase commit protocol change to avoid blocking?",
+      "gold_sections": ["23.2.1", "23.8"],
+      "gold_keywords": ["force-write", "ready log record", "stable storage", "3PC", "non-blocking", "consensus"],
+      "expected_sub_queries": [
+        "What information must be forced to stable storage during 2PC?",
+        "How does three-phase commit avoid the blocking problem of 2PC?"
+      ]
+    },
+    {
+      "id": "cc-01",
+      "topic": "concurrency_control",
+      "type": "simple",
+      "question": "What is the difference between shared and exclusive locks?",
+      "gold_sections": ["18.1"],
+      "gold_keywords": ["shared lock", "exclusive lock", "read", "write", "compatibility"]
+    },
+    {
+      "id": "cc-02",
+      "topic": "concurrency_control",
+      "type": "complex",
+      "question": "How does two-phase locking differ from optimistic concurrency control, and when would you choose one over the other?",
+      "gold_sections": ["18.1", "18.6"],
+      "gold_keywords": ["2PL", "growing phase", "shrinking phase", "validation", "read set", "write set", "contention"],
+      "expected_sub_queries": [
+        "How does two-phase locking work?",
+        "How does optimistic concurrency control work?",
+        "What are the performance trade-offs between 2PL and OCC?"
+      ]
+    },
+    {
+      "id": "cc-03",
+      "topic": "concurrency_control",
+      "type": "complex",
+      "question": "Compare strict 2PL and MVTO in terms of how they handle read-write conflicts and what guarantees they provide.",
+      "gold_sections": ["18.1.4", "18.7"],
+      "gold_keywords": ["strict 2PL", "MVTO", "timestamp", "multiversion", "cascadeless", "read conflict"],
+      "expected_sub_queries": [
+        "How does strict 2PL handle read-write conflicts?",
+        "How does multiversion timestamp ordering handle read-write conflicts?",
+        "What isolation guarantees does each protocol provide?"
+      ]
+    },
+    {
+      "id": "rec-01",
+      "topic": "recovery",
+      "type": "simple",
+      "question": "What is write-ahead logging and why is it important?",
+      "gold_sections": ["19.4"],
+      "gold_keywords": ["WAL", "log record", "stable storage", "before modification", "redo", "undo"]
+    },
+    {
+      "id": "rec-02",
+      "topic": "recovery",
+      "type": "complex",
+      "question": "Describe how ARIES recovery works: what happens in each of its three phases, and how does it use the log to restore consistency?",
+      "gold_sections": ["19.8"],
+      "gold_keywords": ["ARIES", "analysis phase", "redo phase", "undo phase", "LSN", "dirty page table", "checkpoint"],
+      "expected_sub_queries": [
+        "What is the analysis phase in ARIES?",
+        "What does the redo phase do in ARIES?",
+        "What does the undo phase do in ARIES?",
+        "How does ARIES use log sequence numbers?"
+      ]
+    },
+    {
+      "id": "rec-03",
+      "topic": "recovery",
+      "type": "complex",
+      "question": "What is the difference between steal/no-steal and force/no-force buffer management policies, and how do they affect recovery complexity?",
+      "gold_sections": ["19.2", "19.4"],
+      "gold_keywords": ["steal", "no-steal", "force", "no-force", "undo", "redo", "buffer"],
+      "expected_sub_queries": [
+        "What is steal vs no-steal buffer policy?",
+        "What is force vs no-force buffer policy?",
+        "How do buffer policies affect the need for undo and redo in recovery?"
+      ]
+    },
+    {
+      "id": "qopt-01",
+      "topic": "query_optimization",
+      "type": "simple",
+      "question": "What is the purpose of a query optimizer in a relational database?",
+      "gold_sections": ["16.1"],
+      "gold_keywords": ["cost estimation", "execution plan", "relational algebra", "equivalent expressions"]
+    },
+    {
+      "id": "qopt-02",
+      "topic": "query_optimization",
+      "type": "complex",
+      "question": "How does a cost-based optimizer estimate the cost of a join, and what role do statistics and histograms play in this estimation?",
+      "gold_sections": ["16.3", "16.4"],
+      "gold_keywords": ["selectivity", "histogram", "cardinality estimation", "join cost", "nested loop", "hash join"],
+      "expected_sub_queries": [
+        "How does a cost-based optimizer estimate join costs?",
+        "What statistics does the optimizer use for cost estimation?",
+        "How do histograms improve cardinality estimation?"
+      ]
+    },
+    {
+      "id": "btree-01",
+      "topic": "indexing",
+      "type": "simple",
+      "question": "What is the structure of a B+ tree index?",
+      "gold_sections": ["14.3"],
+      "gold_keywords": ["leaf node", "internal node", "balanced", "pointer", "search key", "order"]
+    },
+    {
+      "id": "btree-02",
+      "topic": "indexing",
+      "type": "complex",
+      "question": "Compare B+ tree indexes with hash indexes in terms of supported operations, performance characteristics, and when each is preferred.",
+      "gold_sections": ["14.3", "14.5"],
+      "gold_keywords": ["B+ tree", "hash index", "range query", "equality", "dynamic hashing", "ordered access"],
+      "expected_sub_queries": [
+        "What operations do B+ tree indexes support efficiently?",
+        "What operations do hash indexes support efficiently?",
+        "When should you choose a B+ tree over a hash index?"
+      ]
+    },
+    {
+      "id": "buf-01",
+      "topic": "buffer_management",
+      "type": "simple",
+      "question": "What is the purpose of the buffer manager in a database system?",
+      "gold_sections": ["13.5"],
+      "gold_keywords": ["buffer pool", "main memory", "disk block", "page replacement", "pin"]
+    },
+    {
+      "id": "buf-02",
+      "topic": "buffer_management",
+      "type": "complex",
+      "question": "How does the buffer manager interact with the recovery system, and why must dirty pages be handled carefully during checkpointing?",
+      "gold_sections": ["13.5", "19.4", "19.6"],
+      "gold_keywords": ["dirty page", "checkpoint", "WAL", "flush", "buffer pool", "force-write"],
+      "expected_sub_queries": [
+        "How does the buffer manager track dirty pages?",
+        "What happens to dirty pages during a checkpoint?",
+        "How does write-ahead logging constrain when buffer pages can be written?"
+      ]
+    },
+    {
+      "id": "dist-01",
+      "topic": "distributed_db",
+      "type": "complex",
+      "question": "What are the key differences between data replication and data fragmentation in a distributed database, and how does each affect query processing and fault tolerance?",
+      "gold_sections": ["23.1", "23.3"],
+      "gold_keywords": ["replication", "fragmentation", "availability", "partition", "consistency", "query routing"],
+      "expected_sub_queries": [
+        "What is data replication in distributed databases?",
+        "What is data fragmentation in distributed databases?",
+        "How does replication affect fault tolerance?",
+        "How does fragmentation affect query processing?"
+      ]
+    },
+    {
+      "id": "txn-01",
+      "topic": "transactions",
+      "type": "simple",
+      "question": "What are the ACID properties of a database transaction?",
+      "gold_sections": ["17.1"],
+      "gold_keywords": ["atomicity", "consistency", "isolation", "durability"]
+    },
+    {
+      "id": "txn-02",
+      "topic": "transactions",
+      "type": "complex",
+      "question": "How do different isolation levels trade off between consistency and performance, and what anomalies does each level permit?",
+      "gold_sections": ["17.6", "18.8"],
+      "gold_keywords": ["read uncommitted", "read committed", "repeatable read", "serializable", "dirty read", "phantom", "non-repeatable read"],
+      "expected_sub_queries": [
+        "What are the SQL standard isolation levels?",
+        "What anomalies can occur at each isolation level?",
+        "How do higher isolation levels affect concurrency performance?"
+      ]
+    }
+  ]
+}

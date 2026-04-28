@@ -1,0 +1,98 @@
+{
+  "passes": 3,
+  "questions": 19,
+  "base_url": "http://localhost:8000",
+  "judge_model": "models/qwen2.5-3b-instruct-q8_0.gguf",
+  "per_pass_files": [
+    "eval/multi_run/pass_01.json",
+    "eval/multi_run/pass_02.json",
+    "eval/multi_run/pass_03.json"
+  ],
+  "per_pass": [
+    {
+      "pass_index": 1,
+      "file": "eval/multi_run/pass_01.json",
+      "elapsed_s": 796.6760768890381
+    },
+    {
+      "pass_index": 2,
+      "file": "eval/multi_run/pass_02.json",
+      "elapsed_s": 761.2925100326538
+    },
+    {
+      "pass_index": 3,
+      "file": "eval/multi_run/pass_03.json",
+      "elapsed_s": 756.013885974884
+    }
+  ],
+  "metrics": {
+    "planner_avg_judge_score": {
+      "mean": 4.035087719298246,
+      "stdev": 0.030386856273138037,
+      "min": 4.0,
+      "max": 4.052631578947368
+    },
+    "baseline_avg_judge_score": {
+      "mean": 3.9298245614035086,
+      "stdev": 0.030386856273138037,
+      "min": 3.8947368421052633,
+      "max": 3.9473684210526314
+    },
+    "planner_avg_keyword_recall_all": {
+      "mean": 0.5803258145363408,
+      "stdev": 0.04244977064419547,
+      "min": 0.5353383458646617,
+      "max": 0.6196741854636592
+    },
+    "baseline_avg_keyword_recall_all": {
+      "mean": 0.5790726817042606,
+      "stdev": 0.01085317214144094,
+      "min": 0.5685463659147869,
+      "max": 0.5902255639097744
+    },
+    "planner_avg_latency_ms": {
+      "mean": 23290.40154084061,
+      "stdev": 1132.7607819886541,
+      "min": 22417.902624835016,
+      "max": 24570.57411168506
+    },
+    "baseline_avg_latency_ms": {
+      "mean": 14736.968741158897,
+      "stdev": 389.4165424669078,
+      "min": 14292.428228164728,
+      "max": 15017.831170998857
+    }
+  },
+  "classifier": {
+    "accuracy": {
+      "mean": 0.6842105263157895,
+      "stdev": 0.0,
+      "min": 0.6842105263157895,
+      "max": 0.6842105263157895
+    },
+    "used_llm_rate": {
+      "mean": 0.05263157894736842,
+      "stdev": 0.0,
+      "min": 0.05263157894736842,
+      "max": 0.05263157894736842
+    },
+    "simple_accuracy": {
+      "mean": 0.875,
+      "stdev": 0.0,
+      "min": 0.875,
+      "max": 0.875
+    },
+    "complex_accuracy": {
+      "mean": 0.5454545454545454,
+      "stdev": 0.0,
+      "min": 0.5454545454545454,
+      "max": 0.5454545454545454
+    },
+    "covered": {
+      "mean": 19.0,
+      "stdev": 0.0,
+      "min": 19.0,
+      "max": 19.0
+    }
+  }
+}
