@@ -5,7 +5,6 @@ Last reviewed: 2026-09-28
 README: [`README.md`](README.md). Runbook: [`RUNBOOK.md`](RUNBOOK.md). Methodology:
 [`eval/PLANNER_IMPLEMENTATION_REPORT.md`](eval/PLANNER_IMPLEMENTATION_REPORT.md).
 File guide: [`IMPLEMENTATION_FILES.md`](IMPLEMENTATION_FILES.md).
-Ecosystem: [`../ECOSYSTEM.md`](../ECOSYSTEM.md).
 
 ## Purpose
 
