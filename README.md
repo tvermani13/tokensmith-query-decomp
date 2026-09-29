@@ -4,6 +4,8 @@ An optional planning layer for multi-hop retrieval: classify a question, decompo
 
 The repository contains the planner implementation snapshot and a reproducible baseline-vs-planner evaluation harness.
 
+Feature catalog: [`FEATURES.md`](FEATURES.md). Reproduction runbook: [`RUNBOOK.md`](RUNBOOK.md).
+
 ## System design
 
 ```text
